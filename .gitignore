@@ -1,0 +1,9 @@
+# Ignorar el entorno virtual
+tango_env/
+
+# Ignorar archivos Python compilados
+*.pyc
+__pycache__/
+
+# Otros archivos o carpetas que no quieres versionar
+.vscode/
