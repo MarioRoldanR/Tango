@@ -2,6 +2,7 @@
 
 import yfinance as yf
 import pandas as pd
+from src.sentiment_analysis import analyze_sentiment
 
 def fetch_stock_data(ticker='AAPL', period='1y', interval='1d'):
     """
@@ -31,15 +32,27 @@ def fetch_sample_tweets():
     ]
     return tweets
 
-if __name__ == '__main__':
-    # --- Prueba de la función fetch_stock_data ---
-    ticker = 'AAPL'
-    stock_data = fetch_stock_data(ticker=ticker, period='1y', interval='1d')
-    print("\nPrimeras filas de los datos históricos para", ticker)
-    print(stock_data.head())
-
-    # --- Prueba de la función fetch_sample_tweets ---
+def fetch_stock_data_with_sentiment(ticker='AAPL', period='1y', interval='1d'):
+    """
+    Descarga datos financieros y obtiene el sentimiento del mercado basado en tweets de ejemplo.
+    
+    :param ticker: Símbolo del activo
+    :param period: Período de tiempo
+    :param interval: Intervalo de los datos
+    :return: DataFrame con datos de mercado y sentimiento
+    """
+    stock_data = fetch_stock_data(ticker, period, interval)
     tweets = fetch_sample_tweets()
-    print("\nTweets de ejemplo:")
-    for tweet in tweets:
-        print("-", tweet)
+    sentiment = analyze_sentiment(tweets)
+    
+    # Agregar sentimiento al DataFrame
+    stock_data["Sentiment"] = sentiment["average_sentiment"]
+    
+    return stock_data
+
+if __name__ == '__main__':
+    ticker = 'AAPL'
+    stock_data = fetch_stock_data_with_sentiment(ticker)
+    
+    print("\nPrimeras filas de los datos históricos con sentimiento:")
+    print(stock_data.head())
