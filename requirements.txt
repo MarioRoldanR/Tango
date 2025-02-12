@@ -4,4 +4,5 @@ yfinance
 matplotlib
 scikit-learn
 vaderSentiment
-streamlit
+streamlitvaderSentiment
+vaderSentiment
